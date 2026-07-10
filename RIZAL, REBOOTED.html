@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rizal, Rebooted — Issue 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Space+Mono:wght@400;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#161d2e;
+    --navy-deep:#0f1422;
+    --paper:#e8dfc8;
+    --bone:#f7f3ea;
+    --red:#a83b34;
+    --cyan:#4fd8c4;
+    --ink:#171512;
+    --paper-line: rgba(23,21,18,0.14);
+    --navy-line: rgba(247,243,234,0.14);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bone);
+    color:var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.6;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:0.72rem;
+    font-weight:700;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0;
+    font-weight:600;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- MASTHEAD ---------- */
+  .masthead{
+    background:var(--navy);
+    color:var(--bone);
+    padding:64px 0 0 0;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--red);
+  }
+  .masthead .wrap{padding-bottom:56px;}
+  .masthead .eyebrow{color:var(--cyan);}
+  .masthead h1{
+    font-size:clamp(3rem, 10vw, 6rem);
+    line-height:0.92;
+    margin-top:18px;
+    letter-spacing:-0.01em;
+  }
+  .masthead h1 em{
+    font-style:italic;
+    color:var(--cyan);
+  }
+  .masthead .dek{
+    font-size:1.15rem;
+    max-width:34ch;
+    margin-top:20px;
+    color:rgba(247,243,234,0.82);
+  }
+  .masthead .byline{
+    margin-top:36px;
+    font-family:'Space Mono',monospace;
+    font-size:0.78rem;
+    color:rgba(247,243,234,0.6);
+    border-top:1px solid var(--navy-line);
+    padding-top:14px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .seam{
+    height:22px;
+    width:100%;
+    background:
+      linear-gradient(135deg, var(--bone) 25%, transparent 25%) 0 0/16px 16px,
+      linear-gradient(-135deg, var(--bone) 25%, transparent 25%) 0 0/16px 16px;
+    background-color:var(--navy);
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:56px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:28px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+  }
+  .section-head .eyebrow{color:var(--red);}
+  .section-head h2{font-size:1.7rem;}
+
+  /* ---------- EDITOR'S NOTE ---------- */
+  .note p{font-size:1.05rem;max-width:66ch;}
+  .note p:first-child::first-letter{
+    font-family:'Fraunces',serif;
+    font-size:3.2rem;
+    float:left;
+    line-height:0.8;
+    padding-right:8px;
+    padding-top:6px;
+    color:var(--red);
+  }
+
+  /* ---------- FORMAT SPEC BOX ---------- */
+  .spec{
+    background:var(--paper);
+    border:1px solid var(--paper-line);
+    padding:24px 28px;
+    margin:32px 0;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+  }
+  .spec div span{
+    display:block;
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--red);
+    margin-bottom:4px;
+  }
+  @media(max-width:560px){.spec{grid-template-columns:1fr;}}
+
+  /* ---------- SERIES MAP ---------- */
+  .map-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    border-top:1px solid var(--paper-line);
+  }
+  .map-item{
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:18px;
+    padding:20px 0;
+    border-bottom:1px solid var(--paper-line);
+  }
+  .map-item .num{
+    font-family:'Space Mono',monospace;
+    color:var(--red);
+    font-size:0.95rem;
+    padding-top:4px;
+  }
+  .map-item h3{font-size:1.15rem;margin-bottom:4px;}
+  .map-item p{margin:0;color:#3a362f;font-size:0.96rem;}
+  .map-item.current{background:var(--navy);color:var(--bone);margin:0 -24px;padding:20px 24px;border-bottom:none;}
+  .map-item.current .num{color:var(--cyan);}
+  .map-item.current p{color:rgba(247,243,234,0.75);}
+  .map-item.current .tag{
+    display:inline-block;
+    font-family:'Space Mono',monospace;
+    font-size:0.65rem;
+    background:var(--cyan);
+    color:var(--navy-deep);
+    padding:2px 8px;
+    margin-left:8px;
+    letter-spacing:0.05em;
+  }
+
+  /* ---------- DEEP DIVE ---------- */
+  .deepdive{background:var(--navy);color:var(--bone);}
+  .deepdive .section-head{border-bottom-color:var(--navy-line);}
+  .deepdive .section-head h2{color:var(--bone);}
+  .deepdive .section-head .eyebrow{color:var(--cyan);}
+  .premise{max-width:68ch;font-size:1.05rem;color:rgba(247,243,234,0.85);margin-bottom:36px;}
+
+  .script{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border:1px solid var(--navy-line);
+  }
+  .script-col{padding:22px 24px;}
+  .script-col.archive{
+    background:var(--paper);
+    color:var(--ink);
+    border-right:2px dashed var(--red);
+  }
+  .script-col.reboot{
+    background:var(--navy-deep);
+    color:var(--bone);
+  }
+  .script-col .col-label{
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .script-col.archive .col-label{color:var(--red);}
+  .script-col.reboot .col-label{color:var(--cyan);}
+  .beat{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid rgba(0,0,0,0.08);}
+  .script-col.reboot .beat{border-bottom-color:rgba(247,243,234,0.1);}
+  .beat:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .beat .t{font-family:'Space Mono',monospace;font-size:0.68rem;opacity:0.7;}
+  .beat p{margin:4px 0 0 0;font-size:0.94rem;}
+  @media(max-width:700px){
+    .script{grid-template-columns:1fr;}
+    .script-col.archive{border-right:none;border-bottom:2px dashed var(--red);}
+  }
+
+  .quote{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:1.3rem;
+    max-width:52ch;
+    margin:36px 0;
+    color:var(--cyan);
+    border-left:3px solid var(--cyan);
+    padding-left:20px;
+  }
+  .quote cite{
+    display:block;
+    font-family:'Space Mono',monospace;
+    font-style:normal;
+    font-size:0.68rem;
+    margin-top:10px;
+    color:rgba(247,243,234,0.6);
+  }
+
+  .analysis{
+    background:rgba(247,243,234,0.06);
+    border:1px solid var(--navy-line);
+    padding:24px 26px;
+    margin-top:36px;
+  }
+  .analysis .eyebrow{color:var(--cyan);display:block;margin-bottom:10px;}
+  .analysis p{font-size:0.98rem;color:rgba(247,243,234,0.85);max-width:66ch;}
+
+  /* ---------- RUBRIC MIRROR (subtle, not a checklist look) ---------- */
+  .why{background:var(--bone);}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .why-grid h3{font-size:1rem;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:0.04em;color:var(--red);margin-bottom:8px;}
+  .why-grid p{font-size:0.92rem;color:#3a362f;}
+  @media(max-width:700px){.why-grid{grid-template-columns:1fr;}}
+
+  /* ---------- COLOPHON ---------- */
+  .colophon{background:var(--navy-deep);color:rgba(247,243,234,0.6);padding:40px 0;}
+  .colophon .wrap{font-family:'Space Mono',monospace;font-size:0.72rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <span class="eyebrow">RZL110 — Final Integrating Project · Issue 01</span>
+    <h1>RIZAL, <em>REBOOTED</em></h1>
+    <p class="dek">A short-form video series that annotates a hero the way he once annotated an empire.</p>
+    <div class="byline">
+      <span>Concept, scripts &amp; essay — one-person production</span>
+      <span>Format: vertical video · 60–90 sec · 5-episode arc</span>
+    </div>
+  </div>
+</header>
+<div class="seam"></div>
+
+<section class="note">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Editor's Note</span>
+      <h2>Why Rizal doesn't need rewriting</h2>
+    </div>
+    <p>Most school projects "modernize" Rizal by translating him — new slang over old ideas. I wanted to try the opposite bet: that Rizal's actual method is already native to short-form video, and the only thing standing between him and a Gen Z audience is the sixty years of textbook varnish sitting on top of it. He fact-checked a colonial historian in the margins of a 300-year-old book. He ran a correspondence network with del Pilar and Ponce that functioned exactly like a group chat — impatient, funny, occasionally petty, always urgent. He wrote two novels that are, structurally, exposés with a cast of named-and-shamed public figures. None of that needs an update. It needs a platform.</p>
+    <p><em>Rizal, Rebooted</em> is a five-episode series built for the feed, not the classroom. Each episode takes one real, documented thing Rizal did or wrote, and stages it in a format his own generation would recognize as an update of what he was already doing: annotation becomes duet-style fact-checking, correspondence becomes a chat thread, a novel's cast becomes a call-out thread. The goal isn't to make Rizal relatable. It's to show that he was already doing the thing we think only we invented.</p>
+
+    <div class="spec">
+      <div><span>Platforms</span>YouTube Shorts, Reels, TikTok</div>
+      <div><span>Runtime</span>60–90 seconds per episode</div>
+      <div><span>Visual grammar</span>Archival scan-texture cut against handheld, phone-shot footage</div>
+      <div><span>Audience</span>Filipino students who only meet Rizal as a mandatory subject</div>
+    </div>
+  </div>
+</section>
+
+<section class="map">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Series Map</span>
+      <h2>Five episodes, one method</h2>
+    </div>
+    <div class="map-grid">
+      <div class="map-item current">
+        <div class="num">01</div>
+        <div>
+          <h3>The Annotator <span class="tag">Featured this issue</span></h3>
+          <p>Rizal fact-checks a 300-year-old lie about his own country, live, in the margins of someone else's book.</p>
+        </div>
+      </div>
+      <div class="map-item">
+        <div class="num">02</div>
+        <div>
+          <h3>Sa Aking Mga Kabata, Translated</h3>
+          <p>A poem every Filipino child memorizes may not even be his. What that authorship dispute says about how we build heroes.</p>
+        </div>
+      </div>
+      <div class="map-item">
+        <div class="num">03</div>
+        <div>
+          <h3>The Group Chat That Never Was</h3>
+          <p>Rizal's real letters to del Pilar and Ponce, restaged as a chaotic, overdue-reply group thread — because that's structurally what they were.</p>
+        </div>
+      </div>
+      <div class="map-item">
+        <div class="num">04</div>
+        <div>
+          <h3>Ibarra Deletes His Account</h3>
+          <p><em>Noli Me Tangere</em>'s reformist landlord, recast as an influencer who tried to fix the system from inside it and got quietly cancelled by the same system.</p>
+        </div>
+      </div>
+      <div class="map-item">
+        <div class="num">05</div>
+        <div>
+          <h3>Simoun's Burner Account</h3>
+          <p><em>El Filibusterismo</em>'s masked jeweler as a sockpuppet exposé — Rizal's warning about reform curdling into revenge, told as an unmasking video.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="deepdive">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Deep Dive · Episode 01</span>
+      <h2>The Annotator</h2>
+    </div>
+    <p class="premise">In 1888–89, Rizal sat in the British Museum with a copy of Antonio de Morga's <em>Sucesos de las Islas Filipinas</em> (1609) and did something no one had done to a colonial account of the Philippines before: he footnoted it, page by page, correcting its Spanish framing with Filipino sources and his own historical reasoning, and republished the whole annotated edition in 1890. He wasn't writing a new history. He was correcting someone else's, in public, with receipts. That is, functionally, a fact-check duet. This episode stages it as one.</p>
+
+    <div class="script">
+      <div class="script-col archive">
+        <span class="col-label">Archive — what Morga actually wrote (1609)</span>
+        <div class="beat"><span class="t">ON SCREEN, SCANNED PAGE</span><p>Morga's chapter describes pre-colonial Filipinos as a people "reduced to civility" only after Spanish contact — their prior customs framed as things corrected by conquest, not as a functioning society in their own right.</p></div>
+        <div class="beat"><span class="t">CAPTION</span><p>Text rendered in a distressed, scanned-parchment texture — genuinely 1609, no filter needed.</p></div>
+      </div>
+      <div class="script-col reboot">
+        <span class="col-label">Reboot — the duet, shot on phone</span>
+        <div class="beat"><span class="t">0:00</span><p>Cold open: a hand scrolls a PDF of Morga's text on a phone. VO: "This is what got taught as fact for three hundred years."</p></div>
+        <div class="beat"><span class="t">0:12</span><p>Split screen. Rizal's actual 1890 footnote appears typed over the passage, in his own words, arguing pre-colonial Filipino society had its own laws, trade, and writing systems Morga simply didn't recognize.</p></div>
+        <div class="beat"><span class="t">0:35</span><p>Cut to present-day: the same "duet" format used to fact-check viral claims — a side-by-side of original clip and correction — revealing this format is 130 years old, not new.</p></div>
+        <div class="beat"><span class="t">1:05</span><p>Close: on-screen text reads, "He didn't wait for permission to correct the record. Neither should you." Series logo stamps in.</p></div>
+      </div>
+    </div>
+
+    <div class="quote">
+      "I have tried to shed light... comparing it with what our neighboring islands and other more civilized countries are, and were, in the same period."
+      <cite>— José Rizal, preface to his annotated edition of Morga's <em>Sucesos</em>, 1890</cite>
+    </div>
+
+    <div class="analysis">
+      <span class="eyebrow">Why this one carries the weight of the series</span>
+      <p>The Morga annotation is the least "novelistic" thing Rizal made, and the most radical. Annotating a primary source to contest its framing — rather than simply writing a rebuttal essay — is a historiographical move: it keeps the original claim visible while surrounding it with contradiction, so the reader watches the correction happen instead of just being told the conclusion. That's precisely the mechanic of a modern fact-check duet, which succeeds or fails on whether it keeps the original clip on screen. Rizal understood, a century before the format existed, that correcting a narrative works better in the presence of the narrative than in its absence. Episode 01 isn't a costume drama about a historical figure doing something admirable. It's a claim that a specific rhetorical technique — annotate, don't just argue — has a Filipino origin point most students are never shown.</p>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Reading This as a Project</span>
+      <h2>What the format is doing</h2>
+    </div>
+    <div class="why-grid">
+      <div>
+        <h3>Complexity</h3>
+        <p>Each episode is anchored to a documented act (the annotation project, the correspondence, the novels' real reception) rather than a paraphrase of Rizal's biography — the argument is historiographical, not decorative.</p>
+      </div>
+      <div>
+        <h3>Craft</h3>
+        <p>The archive/reboot split isn't a visual gimmick — it mirrors the actual technique the episode is about: keeping the original text visible while a correction runs alongside it.</p>
+      </div>
+      <div>
+        <h3>Prose</h3>
+        <p>The premise, quote, and analysis are written to stand on their own as an essay, so the project reads as an argument first and a production plan second.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <div class="wrap">
+    <span>Rizal, Rebooted — Issue 01 · RZL110 Final Integrating Project</span>
+    <span>Sources: Rizal's annotated edition of Morga's Sucesos (1890) · Noli Me Tangere · El Filibusterismo</span>
+  </div>
+</footer>
+
+</body>
+</html>
